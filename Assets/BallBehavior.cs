@@ -38,6 +38,7 @@ public class BallBehavior : MonoBehaviour
         }
     }
 
+    //Reseting the shooting ball back to its shooting position
     private void ResetValues()
     {
 
@@ -45,6 +46,7 @@ public class BallBehavior : MonoBehaviour
         ChangeScriptable();
     }
 
+    //Changing the color of the shooting ball
     private void ChangeScriptable()
     {
         currentScriptable = ballScriptables[Random.Range(0,ballScriptables.Length)];

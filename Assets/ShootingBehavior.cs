@@ -26,11 +26,11 @@ public class ShootingBehavior : MonoBehaviour
 
     private void Update()
     {
-        DrawDirection();
-        _horizontalInput = Input.GetAxis("Mouse X");
-        _rotation.y = _rotation.y + (_horizontalInput * _rotationMultiplier * Time.deltaTime);
-        _rotation.y = Mathf.Clamp(_rotation.y, -60f, 60f);
-        _transform.rotation = Quaternion.Euler(_rotation);
+        if (!shoot)
+        {
+            DrawDirection();
+        }
+        RotationWithMouse();
         SetDirectionOfBall();
     }
     
@@ -45,6 +45,7 @@ public class ShootingBehavior : MonoBehaviour
             
             if (Input.GetMouseButtonDown(0))
             {
+                shoot = true;
                 _shootingBallRigidbody.isKinematic = false;
                 _shootingBall.transform.rotation = Quaternion.Euler(_rotation);
                 _shootingBallRigidbody.AddRelativeForce(Vector3.forward * 1000f);
@@ -61,11 +62,21 @@ public class ShootingBehavior : MonoBehaviour
         _ballTransform.rotation = _transform.rotation;
     }
 
+    //For Resetting shooting ball's components
     public void ResetBall()
     {
         shoot = false;
         _shootingBallRigidbody.isKinematic = true;
         _ballTransform.position = _transform.position;
         _shootingBall.SetActive(true);
+    }
+
+    //For rotating the shooting angle using mouse input
+    private void RotationWithMouse()
+    {
+        _horizontalInput = Input.GetAxis("Mouse X");
+        _rotation.y = _rotation.y + (_horizontalInput * _rotationMultiplier * Time.deltaTime);
+        _rotation.y = Mathf.Clamp(_rotation.y, -60f, 60f);
+        _transform.rotation = Quaternion.Euler(_rotation);
     }
 }
