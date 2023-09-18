@@ -12,7 +12,7 @@ public class BallManager : MonoBehaviour
     private float OffSet = 1f;                                                         //distance between balls with repect to centers
     [SerializeField] private GameObject _announcementPanel;
     [SerializeField] private TextMeshProUGUI _announcementText;
-
+    private bool _gameEnd;
 
     public static BallManager instance;
 
@@ -32,8 +32,12 @@ public class BallManager : MonoBehaviour
 
     private void Update()
     {
-        ClearUnattachedBalls();
+        if (_gameEnd)
+        {
+            return;
+        }
         CheckAllBalls();
+        ClearUnattachedBalls();
     }
 
     //Instantiation destroyable balls matrix
@@ -120,6 +124,7 @@ public class BallManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         _announcementPanel.SetActive(true);
         _announcementText.text = "You Won";
+        _gameEnd = true;
     }
 
     private void Lost()
@@ -128,6 +133,7 @@ public class BallManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined; 
         _announcementPanel.SetActive(true);
         _announcementText.text = "You Lost";
+        _gameEnd = true;
     }
 
     //Resetting the colors of the balls and activating them
@@ -150,5 +156,6 @@ public class BallManager : MonoBehaviour
             }
         }
         Cursor.lockState = CursorLockMode.Locked;
+        _gameEnd = false;
     }
 }
